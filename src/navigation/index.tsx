@@ -1,31 +1,31 @@
-import { FontAwesome, FontAwesome5, MaterialCommunityIcons } from "@expo/vector-icons";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import {
-  NavigationContainer,
-  DefaultTheme,
-  DarkTheme,
-} from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import * as React from "react";
-import { Button, ColorSchemeName, Pressable, TouchableOpacity, Text } from "react-native";
-
+import { ColorSchemeName, TouchableOpacity } from "react-native";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { useUserInfo } from "../lib/userContext";
 import Colors from "../constants/Colors";
 import HomeScreen from "../screens/HomeScreen";
 import ProfileScreen from "../screens/ProfileScreen";
+import EmployeeScreen from "../screens/EmployeeScreen";
+import RequestScreen from "../screens/RequestScreen";
+import supabase from "../lib/supabase";
 import Auth from "../hooks/Auth";
 import {
   RootStackParamList,
   RootTabParamList,
   RootTabScreenProps,
 } from "../types";
-import { useUserInfo } from "../lib/userContext";
 import {
-  Poppins_700Bold,
-  Poppins_400Regular,
-} from "@expo-google-fonts/poppins";
-import EmployeeScreen from "../screens/EmployeeScreen";
-import RequestScreen from "../screens/RequestScreen";
-import supabase from "../lib/supabase";
+  FontAwesome,
+  FontAwesome5,
+  MaterialCommunityIcons,
+} from "@expo/vector-icons";
+import {
+  NavigationContainer,
+  DefaultTheme,
+  DarkTheme,
+} from "@react-navigation/native";
+
 
 const darkTheme = {
   ...DarkTheme,
@@ -72,18 +72,28 @@ function RootNavigator() {
       <Stack.Screen
         name="Employee"
         component={EmployeeScreen}
-        options={{ title: "Employees", 
-        headerTitleStyle: { fontSize: 20, fontFamily: "Poppins_700Bold", color: "#00726D", },
-        headerTitleAlign: "center",
-       }}
+        options={{
+          title: "Employees",
+          headerTitleStyle: {
+            fontSize: 20,
+            fontFamily: "Poppins_700Bold",
+            color: "#00726D",
+          },
+          headerTitleAlign: "center",
+        }}
       />
       <Stack.Screen
         name="Request"
         component={RequestScreen}
-        options={{ title: "Solicitud", 
-        headerTitleStyle: { fontSize: 20, fontFamily: "Poppins_700Bold", color: "#00726D", },
-        headerTitleAlign: "center",
-       }}
+        options={{
+          title: "Solicitud",
+          headerTitleStyle: {
+            fontSize: 20,
+            fontFamily: "Poppins_700Bold",
+            color: "#00726D",
+          },
+          headerTitleAlign: "center",
+        }}
       />
     </Stack.Navigator>
   );
@@ -123,12 +133,14 @@ function BottomTabNavigator() {
             fontSize: 12,
           },
           headerRight: () => (
-            <TouchableOpacity onPress={() => supabase.auth.signOut()}
-            style={{
-              marginRight: 5, 
-            }}>
-            <MaterialCommunityIcons name="logout" size={35} color="#00726D" />
-          </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => supabase.auth.signOut()}
+              style={{
+                marginRight: 5,
+              }}
+            >
+              <MaterialCommunityIcons name="logout" size={35} color="#00726D" />
+            </TouchableOpacity>
           ),
         })}
       />
