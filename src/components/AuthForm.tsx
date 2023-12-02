@@ -14,6 +14,7 @@ import type {
   SignInWithPasswordCredentials,
   SignUpWithPasswordCredentials,
 } from "@supabase/supabase-js";
+import React from "react";
 
 interface AuthFormProps {
   onSignUp: (credentials: SignUpWithPasswordCredentials) => void;

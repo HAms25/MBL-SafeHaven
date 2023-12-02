@@ -8,7 +8,6 @@ import HomeScreen from "../screens/HomeScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import EmployeeScreen from "../screens/EmployeeScreen";
 import RequestScreen from "../screens/RequestScreen";
-import supabase from "../lib/supabase";
 import Auth from "../hooks/Auth";
 import {
   RootStackParamList,
@@ -25,6 +24,7 @@ import {
   DefaultTheme,
   DarkTheme,
 } from "@react-navigation/native";
+import LogoutButton from "../components/LogoutButton.tsx";
 
 
 const darkTheme = {
@@ -133,14 +133,7 @@ function BottomTabNavigator() {
             fontSize: 12,
           },
           headerRight: () => (
-            <TouchableOpacity
-              onPress={() => supabase.auth.signOut()}
-              style={{
-                marginRight: 5,
-              }}
-            >
-              <MaterialCommunityIcons name="logout" size={35} color="#00726D" />
-            </TouchableOpacity>
+            <LogoutButton/>
           ),
         })}
       />
@@ -163,6 +156,9 @@ function BottomTabNavigator() {
             fontFamily: "Poppins_400Regular",
             fontSize: 12,
           },
+          headerRight: () => (
+            <LogoutButton/>
+          ),
         })}
       />
     </BottomTab.Navigator>

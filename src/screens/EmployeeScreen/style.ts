@@ -8,10 +8,6 @@ const styles = StyleSheet.create({
       fontFamily: "Poppins_600SemiBold",
       fontSize: 20,
     },
-    cardContainer: {
-      position: "relative",
-      top: 5,
-    },
   });
 
 export default styles
