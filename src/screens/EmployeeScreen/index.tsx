@@ -11,7 +11,6 @@ const EmployeeScreen = () => {
   const navigation = useNavigation();
 
   const handleOfferServicesPress = () => {
-    // Navegar a Request
     navigation.navigate("Request");
   };
 
@@ -44,6 +43,7 @@ const EmployeeScreen = () => {
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
           <CardEmployee
+            id={item.id}
             title={item.name}
             text={item.info}
             imageSource={item.image_path}

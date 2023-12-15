@@ -5,14 +5,17 @@ import styles from "./style"
 import supabase from "../../lib/supabase";
 
 interface CardProps {
+  id: number;
   imageSource: string;
   title: string;
   text: string;
   buttonText?: string;
+
   onPressButton?: () => void;
 }
 
 const CardEmployee = ({
+  id,
   imageSource,
   title,
   text,
@@ -23,7 +26,6 @@ const CardEmployee = ({
   const [imageUrl, setImageUrl] = useState("");
 
   const fetchImageUrl = async () => {
-    // Lógica para obtener la URL de la imagen desde Supabase
     const storage = supabase.storage;
     const imageUrl = await storage.from("images").getPublicUrl(imageSource);
     setImageUrl(imageUrl.data.publicUrl);
@@ -34,10 +36,8 @@ const CardEmployee = ({
   }, [imageSource]);
 
   const handleButtonPress = () => {
-    // Navegar a Request
-    navigation.navigate("Request");
+    navigation.navigate("ProfileEmployee", { id: id });
   };
-
   return (
     <View style={styles.card}>
       {imageUrl ? (

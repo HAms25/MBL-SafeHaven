@@ -17,7 +17,8 @@ export type RootStackParamList = {
   NotFound: undefined;
   Employee: undefined;
   Request: undefined;
-};
+  SigninForm: undefined;
+  ProfileEmployee: { id: number } | undefined;};
 
 export type RootStackScreenProps<Screen extends keyof RootStackParamList> =
   NativeStackScreenProps<RootStackParamList, Screen>;

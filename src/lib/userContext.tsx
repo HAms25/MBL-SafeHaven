@@ -1,5 +1,5 @@
 import { Session } from "@supabase/supabase-js";
-import {
+import React, {
   createContext,
   ReactNode,
   useContext,
@@ -7,6 +7,7 @@ import {
   useState,
 } from "react";
 import  supabase  from "../lib/supabase";
+
 
 // definir context para guardar el session y el profile
 export interface UserProfile {
@@ -27,7 +28,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [userInfo, setUserInfo] = useState<UserInfo>({
     session: null,
   });
-  console.log('UserInfo:', userInfo)
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {

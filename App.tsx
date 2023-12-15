@@ -16,8 +16,8 @@ import useCachedResources from "./src/hooks/useCachedResources";
 import useColorScheme from "./src/hooks/useColorScheme";
 import Navigation from "./src/navigation";
 import { AuthProvider } from "./src/lib/userContext";
-import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import React from "react";
 
 const Stack = createNativeStackNavigator()
 

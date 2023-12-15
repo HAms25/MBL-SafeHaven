@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import supabase from "../lib/supabase";
 
 interface EmployeeProps {
+    cellphone: string;
     id: number;
     name: string;
     info: string;

@@ -8,7 +8,6 @@ import HomeScreen from "../screens/HomeScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import EmployeeScreen from "../screens/EmployeeScreen";
 import RequestScreen from "../screens/RequestScreen";
-import Auth from "../hooks/Auth";
 import {
   RootStackParamList,
   RootTabParamList,
@@ -17,7 +16,6 @@ import {
 import {
   FontAwesome,
   FontAwesome5,
-  MaterialCommunityIcons,
 } from "@expo/vector-icons";
 import {
   NavigationContainer,
@@ -25,6 +23,8 @@ import {
   DarkTheme,
 } from "@react-navigation/native";
 import LogoutButton from "../components/LogoutButton.tsx";
+import AuthForm from "../screens/AuthScreen";
+import { ProfileEmployeeScreen } from "../screens/ProfileEmployeeScreen";
 
 
 const darkTheme = {
@@ -66,7 +66,7 @@ function RootNavigator() {
     <Stack.Navigator>
       <Stack.Screen
         name="Root"
-        component={session ? BottomTabNavigator : Auth}
+        component={session ? BottomTabNavigator : AuthForm}
         options={{ headerShown: false }}
       />
       <Stack.Screen
@@ -87,6 +87,19 @@ function RootNavigator() {
         component={RequestScreen}
         options={{
           title: "Solicitud",
+          headerTitleStyle: {
+            fontSize: 20,
+            fontFamily: "Poppins_700Bold",
+            color: "#00726D",
+          },
+          headerTitleAlign: "center",
+        }}
+      />
+      <Stack.Screen
+        name="ProfileEmployee"
+        component={ProfileEmployeeScreen}
+        options={{
+          title: "Perfil",
           headerTitleStyle: {
             fontSize: 20,
             fontFamily: "Poppins_700Bold",
