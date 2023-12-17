@@ -31,7 +31,16 @@ const styles = StyleSheet.create({
     },
     selectedFile: {
       color: "black",
-    }
+    },
+    loadingOverlay: {
+      ...StyleSheet.absoluteFillObject,
+      backgroundColor: 'rgba(0, 0, 0, 0.1)',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    fullScreenContainer: {
+      flex: 2,
+    },
   });
   
   export default styles

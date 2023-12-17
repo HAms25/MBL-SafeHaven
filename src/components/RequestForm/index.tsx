@@ -1,14 +1,21 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, ScrollView,
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  ScrollView,
+  ActivityIndicator,
 } from "react-native";
 import * as DocumentPicker from "expo-document-picker";
+import { useNavigation } from "@react-navigation/native";
 import styles from "./style";
 import Dropdown from "../Dropdown";
 import { useUserInfo } from "../../lib/userContext";
 import supabase from "../../lib/supabase";
 import { decode } from "base64-arraybuffer";
-import RNRestart from "react-native-restart";
 import { readAsStringAsync } from "expo-file-system";
+import { Alert } from "react-native";
 
 const RequestForm = () => {
   const [dniName, setDniName] = useState("");
@@ -18,7 +25,10 @@ const RequestForm = () => {
   const [experience, setExperience] = useState("");
   const [selectedService, setSelectedService] = useState<string | null>(null);
   const { session } = useUserInfo();
-  const [isDocumentPickerInProgress, setDocumentPickerInProgress] = useState(false);
+  const navigation = useNavigation();
+  const [isDocumentPickerInProgress, setDocumentPickerInProgress] =
+    useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const selectFile = async (
     fileStateSetter: React.Dispatch<React.SetStateAction<string | null>>,
@@ -70,6 +80,16 @@ const RequestForm = () => {
     }
   };
 
+  //Reset
+  const resetForm = () => {
+    setDniName("");
+    setPdfName("");
+    setDniFile(null);
+    setPdfFile(null);
+    setExperience("");
+    setSelectedService(null);
+  };
+
   const handleSendRequest = async () => {
     try {
       if (!session) {
@@ -80,10 +100,12 @@ const RequestForm = () => {
       // Obtiene el ID del usuario autenticado
       const userId = session.user.id;
 
-      if (!dniFile || !pdfFile) {
-        console.error("Debes seleccionar ambos archivos");
+      if (!dniFile || !pdfFile || !experience || !selectedService) {
+        Alert.alert("Error", "Por favor, completa todos los campos");
         return;
       }
+
+      setIsLoading(true);
 
       await uploadFile(dniFile, dniName, "dnis");
       await uploadFile(pdfFile, pdfName, "antecedent");
@@ -104,6 +126,20 @@ const RequestForm = () => {
       }
 
       console.log("Datos insertados correctamente:", data);
+
+      setTimeout(() => {
+        try {
+          Alert.alert(
+            "¡Envío Exitoso!",
+            "Se te enviará una notificación a tu correo, si los datos ingresados son validados correctamente por SafeHaven.",
+            [{ text: "Continuar", onPress: resetForm }]
+          );
+        } catch (error) {
+          console.error("Error al mostrar alerta:", error);
+        } finally {
+          setIsLoading(false);
+        }
+      }, 500); // You can adjust the delay time as needed
     } catch (error) {
       console.error("Error al insertar datos:", error);
     }
@@ -111,7 +147,7 @@ const RequestForm = () => {
 
   return (
     <ScrollView>
-      <View style={styles.container}>
+      <View style={[styles.container, styles.fullScreenContainer]}>
         <Text style={styles.label}>Selecciona el servicio a ofrecer:</Text>
         <Dropdown
           selectedValue={selectedService}
@@ -143,10 +179,18 @@ const RequestForm = () => {
             <Text style={styles.buttonText}>Enviar</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => navigation.goBack()}
+          >
             <Text style={styles.buttonText}>Cancelar</Text>
           </TouchableOpacity>
         </View>
+        {isLoading && (
+          <View style={styles.loadingOverlay}>
+            <ActivityIndicator size="large" color="#00726D" />
+          </View>
+        )}
       </View>
     </ScrollView>
   );
